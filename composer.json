@@ -1,6 +1,6 @@
 {
     "name": "kenphp/ken-plates",
-    "description": "Plates Template Engine for KenPHP Framework",
+    "description": "Plates Templating Engine for KenPHP Framework",
     "type": "library",
     "license": "MIT",
     "authors": [
