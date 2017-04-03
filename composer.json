@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Ken\\View\\PlatesEngine": "src/"
+            "Ken\\View\\PlatesEngine\\": "src/"
         }
     }
 }
