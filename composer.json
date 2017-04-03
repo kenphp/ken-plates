@@ -1,0 +1,22 @@
+{
+    "name": "kenphp/ken-plates",
+    "description": "Plates Template Engine for KenPHP Framework",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Muhammad Safri Juliardi",
+            "email": "ardi93@gmail.com"
+        }
+    ],
+    "minimum-stability":"dev",
+    "require": {
+        "league/plates": "^3.3",
+        "kenphp/ken": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ken\\View\\PlatesEngine": "src/"
+        }
+    }
+}
