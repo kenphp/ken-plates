@@ -22,7 +22,7 @@ class FunctionGenerator implements Buildable
     /**
      * {@inheritdoc}
      */
-    public static function build($config = array())
+    public static function build(array $config = array())
     {
         return new static();
     }
