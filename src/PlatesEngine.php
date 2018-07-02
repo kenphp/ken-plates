@@ -67,8 +67,6 @@ class PlatesEngine extends BaseEngine
      */
     public function render($view, array $params = [])
     {
-        $view = $this->suffixExtension($view);
-
         echo $this->engine->render($view, $params);
     }
 
