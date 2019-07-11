@@ -6,7 +6,7 @@ use Ken\View\BaseEngine;
 use League\Plates\Engine;
 use Psr\Http\Message\ResponseInterface;
 
-class Plates extends BaseEngine {
+class PlatesEngine extends BaseEngine {
 
     /**
      * @var \League\Plates\Engine
@@ -39,7 +39,7 @@ class Plates extends BaseEngine {
     public function render(ResponseInterface $response, $view, array $params = []) {
         $template = $this->fetch($view, $params);
         $response->getBody()->write($template);
-        
+
         return $response;
     }
     /**
