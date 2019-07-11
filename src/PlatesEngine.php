@@ -1,80 +1,51 @@
 <?php
 
-namespace Ken\View\PlatesEngine;
+namespace Ken\View\Engine;
 
 use Ken\View\BaseEngine;
 use League\Plates\Engine;
+use Psr\Http\Message\ResponseInterface;
 
-/**
- * @author Juliardi <ardi93@gmail.com>
- */
-class PlatesEngine extends BaseEngine
-{
+class Plates extends BaseEngine {
+
     /**
      * @var \League\Plates\Engine
      */
     protected $engine;
 
     /**
-     * @var \Ken\TwigEngine\FunctionGenerator
+     * @inheritDoc
      */
-    protected $functionGenerator;
-
-    public function __construct($config)
-    {
-        parent::__construct($config);
-        if (!isset($config['functionGenerator'])) {
-            $config['functionGenerator'] = __NAMESPACE__.'\FunctionGenerator';
-        }
-        $this->initFunctionGenerator($config['functionGenerator']);
-        $this->initEngine();
-    }
-
-    /**
-     * Inits custom function generator.
-     */
-    protected function initFunctionGenerator($generatorClass)
-    {
-        $this->functionGenerator = $generatorClass::build();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function initEngine()
-    {
+    protected function initEngine() {
         $this->engine = new Engine($this->viewPath, $this->getFileExtension());
 
-        $this->registerCustomFunctions();
-    }
-
-    /**
-     * Registers custom functions.
-     */
-    protected function registerCustomFunctions()
-    {
-        $functionList = $this->functionGenerator->getFunctionList();
-
-        foreach ($functionList as $function) {
-            if (isset($function['name']) && isset($function['callable'])) {
-                $this->engine->registerFunction($function['name'], $function['callable']);
+        foreach ($this->viewFunctions as $name => $fn) {
+            if (is_callable($fn)) {
+                $this->engine->registerFunction($name, $fn);
             }
         }
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function render($view, array $params = [])
-    {
-        echo $this->engine->render($view, $params);
+    * @inheritDoc
+    */
+    protected function getFileExtension() {
+        return 'php';
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    protected function getFileExtension()
-    {
-        return 'php';
+    public function render(ResponseInterface $response, $view, array $params = []) {
+        $template = $this->fetch($view, $params);
+        $response->getBody()->write($template);
+        
+        return $response;
+    }
+    /**
+     * @inheritDoc
+     */
+    public function fetch($view, array $params = []) {
+        return $this->engine->render($view, $params);
     }
 }
