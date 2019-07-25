@@ -24,6 +24,22 @@ class PlatesEngine extends BaseEngine {
                 $this->engine->registerFunction($name, $fn);
             }
         }
+
+        $this->registerViewFunctions();
+    }
+
+    /**
+     * Registers custom functions.
+     */
+    protected function registerViewFunctions()
+    {
+        foreach ($this->viewFunctions as $function) {
+            if (isset($function['name']) && isset($function['callable'])) {
+                if (!is_numeric($function['name']) && is_callable($function['callable'])) {
+                    $this->engine->registerFunction($function['name'], $function['callable']);
+                }
+            }
+        }
     }
 
     /**
